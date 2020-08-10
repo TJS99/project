@@ -1,0 +1,839 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+		<title>My Mirror</title>
+		
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<link href="Mstyle.css" rel="stylesheet">
+		<link rel="stylesheet" href="font/Rimouski.css">
+		
+		<script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js'></script>
+		<script src="script.js"></script>
+	</head>
+	
+	
+	<body>
+	
+		<header>
+			<div class="clock-container center">
+				<div class="clock-col">
+					<p class="clock-hours clock-timer"></p>
+					<p class="clock-label">Hours</p>
+				</div>
+				<div class="clock-col">
+					<p class="clock-minutes clock-timer"></p>
+					<p class="clock-label">Minutes</p>
+				</div>
+				<div class="clock-col">
+					<p class="clock-seconds clock-timer"></p>
+					<p class="clock-label">Seconds</p>
+				</div>
+				<div class="clock-col dayOrNight">
+					<p class="clock-day clock-timer"></p>
+					<p class="clock-label"><span class="currDate"></span></p>
+				</div>
+			</div>
+		</header>
+		
+		
+		
+		<div class="container item8" id="panel2">
+			<div class="notification"> </div>
+			<div class="weather-container">	
+				<div class="location">
+					<p>-</p>
+				</div>
+				<div class="weather-icon">
+					<img src="icons/unknown.png" alt="">
+				</div>
+				<div class="temperature-value">
+					<div class="temp-value-div">
+						<p>- °<span>C</span></p>
+					</div>
+					<div class="temperature-description">
+						<p> - </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+
+		<main id="heightExtension">
+			<div hidden id="panel" class="dragbox item">
+				<p>--- Phone Mirror ---</p>
+				<iframe class="center" src="http://192.168.43.191:8080/"></iframe>
+				<div class="win-size-grip grips"></div>
+			</div>
+			<div hidden id="panel3" class="dragbox item2">
+				<p>--- Spotify ---</p>
+				<iframe class="center" id="SpotifyIframe" name="SpotifyIframe" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+				<div class="win-size-grip2 grips"></div>
+			</div>
+			<div hidden id="panel4" class="dragbox item3">
+				<p>--- Photobooth ---</p>
+				<!-- Camera -->
+				<div id="cm">
+					<div id="camera">
+						<!-- Camera sensor -->
+						<canvas id="camera--sensor"></canvas>
+						<!-- Camera view -->
+						<video id="camera--view" autoplay playsinline></video>
+						<!-- Camera output -->
+						<img src="//:0" alt="" id="camera--output">
+						<!-- Camera trigger -->
+						<button onclick="start()" id="camera--trigger">Take a picture</button>
+						<a href="#" class="button material-icons md-18" id="downloadBTN" download="My-Mirror-Image.jpg">get_app</a>
+					</div>
+				</div>
+				<span id="count">5</span>
+				<div class="win-size-grip3 grips"></div>
+			</div>
+			<div hidden id="panel5" class="dragbox item4">
+				<p>--- Messenger ---</p>
+				<div class="elfsight-app-dd630a88-e167-4d5a-938e-01aba209bc7c center"></div>
+				<div class="win-size-grip4 grips"></div>
+			</div>
+			<div hidden id="panel6" class="dragbox item5">
+				<p>--- Google Calendar ---</p>
+				<div id="CalendarIframe" class="CalendarIframe" style="width:100%;height:100%;"></div>
+				<div class="win-size-grip5 grips"></div>
+			</div>
+			<div hidden id="panel7" class="dragbox item6">
+				<p>--- Doodler ---</p>
+				<iframe class="center" src="https://paintz.app/" allowfullscreen></iframe>
+				<div class="win-size-grip6 grips"></div>
+			</div>
+			<div hidden id="panel8" class="dragbox item7">
+				<p>--- E-Mail ---</p>
+				<iframe id="emailIframe" class="emailIframe"></iframe>
+				<div class="win-size-grip7 grips"></div>
+			</div>
+			<div hidden id="panel9" class="dragbox item8">
+				<p>--- Mirror Settings ---</p>
+				<div class="userInputBox">
+					<h2 style="text-decoration:underline;">Set Spotify Playlist</h2>
+					<p>
+						Change your Spotify playlist by following the instructions below:<br>
+					</p>
+						<ol>
+							<li>Log into your Spotify account on Spotify's web player (Requires Spotify Premium)</li>
+							<li>Find the playlist you would like to add (make a new playlist and add/remove songs to it on your phone to avoid constant updating)</li>
+							<li>Find the playlist's ID located in the URL</li>
+							<li>Type the ID into the textbox below and hit the submit button</li>
+						</ol>
+					<p>
+						For Example: in the Spotify playlist URL here - "https://open.spotify.com/playlist/20K12yslgchif3E69cjAYz" the "20K12yslgchif3E69cjAYz" is your playlist's ID that you may type into the textbox below
+					</p>
+					<form id="reset" method="post" target="SpotifyIframe">
+						<input class="showUser" type="text" id="SpotifyUserInput" placeholder="Enter Spotify Playlist ID Here:" />
+						<input class="showUser2" type="button" value="Submit" onclick="UpdateSpotifyPlaylist(); return false;"/>
+					</form>
+					
+					<br>
+					<h2 style="text-decoration:underline;">Set Google Calendar</h2>
+					<p>
+						Change your Google Calendar by following the instructions below:<br>
+						<ol>
+							<li>Go to your Google calendar page</li>
+							<li>Under "My Calendars" on the left-hand side of the page, hover over one of your calendars and click the 3 dots icon</li>
+							<li>Select "settings and sharing"</li>
+							<li>Scroll down to "integrate calendar" and click on the "customize" button</li>
+							<li>Customize your calendar to your likings</li>
+							<li>Copy the "embed code" located at the top of the page</li>
+							<li>Paste into the textbox below and then hit submit</li>
+						</ol>
+					</p>
+					<form id="reset2" method="post" target="CalendarIframe">
+						<input class="showUser" type="text" id="CalendarUserInput" placeholder="Enter Google Calendar Embed Code Here:" />
+						<input class="showUser2" type="button" value="Submit" onclick="UpdateCalendar(); return false;"/>
+					</form>
+					
+					<br>
+					<h2 style="text-decoration:underline;">Set Outlook E-Mail</h2>
+					<p>
+						Change your Outlook e-mail feed by following the instructions below:<br>
+						**Note: you may have to sign in every so often due to security time-outs**
+						<ol>
+							<li>Go to your online Outlook e-mail page in your browser</li>
+							<li>Copy the URL link at the top of the window</li>
+							<li>paste your URL in the textbox below and hit submit</li>
+						</ol>
+					</p>
+					<form id="reset3" method="post" target="emailIframe">
+						<input class="showUser" type="text" id="emailUserInput" placeholder="Enter Outlook E-Mail URL Here:" />
+						<input class="showUser2" type="button" value="Submit" onclick="UpdateEmail(); return false;"/>
+					</form>
+					
+					<br>
+					<h2 style="text-decoration:underline;">Set Weather Location</h2>
+					<p>
+						When loading the page initially, a pop-up will show asking for access to your location. Please select "allow" to have the weather widget present your forecast. If you see a red message bar appear above the weather widget, this means that you must refresh the page to try again. If you do not wish to have your location shared, just close the weather panel using the menu buttons.<br>
+					</p>
+				</div>
+				<div class="win-size-grip8 grips"></div>
+			</div>
+		</main>		
+		
+		
+	
+			
+		<div class="menu center">
+			<input type="checkbox" id="toggle"/>
+			<label id="show-menu" for="toggle">
+				<div class="btn">
+					<i class="material-icons md-36 toggleBtn menuBtn">menu</i>
+					<i class="material-icons md-36 toggleBtn closeBtn">close</i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction()">mobile_screen_share</a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction2()"><img src="https://img.icons8.com/ios-filled/70/000000/partly-cloudy-day.png"></a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction3()"><span class="iconify" data-icon="mdi-spotify" data-inline="false"></span></a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction6()">date_range</a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction5()"><img src="https://img.icons8.com/material/70/000000/facebook-messenger--v1.png"></a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction7()">color_lens</a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction8()">mail</a></i>
+				</div>
+				<div class="btn">
+					<i class="material-icons md-36"><a onclick="myFunction4()">camera_alt</a></i>
+				</div>
+			</label>
+		</div>
+	
+		
+		<button onclick="openFullscreen()" id="myBtn" title="Fullscreen Mode">
+			<i class="material-icons md-18">fullscreen</i>
+		</button>
+		<button onclick="closeFullscreen()" id="myBtn2" title="Exit Fullscreen">
+			<i class="material-icons md-18">fullscreen_exit</i>
+		</button>
+		<button onclick="showSettings()" id="myBtn5" title="Show Settings">
+			<i class="material-icons md-18">settings</i>
+		</button>
+		<button onclick="hideSettings()" id="myBtn6" title="Show Settings">
+			<i class="material-icons md-18">highlight_off</i>
+		</button>
+		<button onclick="hideFullscreen()" id="myBtn3" title="Hide Screen">
+			<i class="material-icons md-18">visibility_off</i>
+		</button>
+		<button onclick="showFullscreen()" id="myBtn4" title="Show Screen">
+			<i class="material-icons md-18">visibility</i>
+		</button>
+		
+		
+		
+
+
+		<script>
+			function UpdateSpotifyPlaylist(){
+				var SpotifyUpdate = document.getElementById("SpotifyIframe");
+				SpotifyUpdate.src = "https://open.spotify.com/embed/playlist/"+document.getElementById("SpotifyUserInput").value;
+				$("#reset")[0].reset();
+			}
+			function UpdateCalendar(){
+				var CalendarUpdate = document.getElementById("CalendarIframe");
+				CalendarUpdate.innerHTML = document.getElementById("CalendarUserInput").value;
+				$("#reset2")[0].reset();
+			}
+			function UpdateEmail(){
+				var emailUpdate = document.getElementById("emailIframe");
+				emailUpdate.src = document.getElementById("emailUserInput").value;
+				$("#reset3")[0].reset();
+			}
+		</script>
+		
+		
+		<script>
+			var dragItem = document.querySelector(".item");
+			var container = document.querySelector("main");
+
+			var active = false;
+			var currentX;
+			var currentY;
+			var initialX;
+			var initialY;
+			var xOffset = 0;
+			var yOffset = 0;
+
+			container.addEventListener("touchstart", dragStart, false);
+			container.addEventListener("touchend", dragEnd, false);
+			container.addEventListener("touchmove", drag, false);
+
+			container.addEventListener("mousedown", dragStart, false);
+			container.addEventListener("mouseup", dragEnd, false);
+			container.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX = e.touches[0].clientX - xOffset;
+				initialY = e.touches[0].clientY - yOffset;
+			  } else {
+				initialX = e.clientX - xOffset;
+				initialY = e.clientY - yOffset;
+			  }
+
+			  if (e.target === dragItem) {
+				active = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX = currentX;
+			  initialY = currentY;
+
+			  active = false;
+			}
+
+			function drag(e) {
+			  if (active) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX = e.touches[0].clientX - initialX;
+				  currentY = e.touches[0].clientY - initialY;
+				} else {
+				  currentX = e.clientX - initialX;
+				  currentY = e.clientY - initialY;
+				}
+
+				xOffset = currentX;
+				yOffset = currentY;
+
+				setTranslate(currentX, currentY, dragItem);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem2 = document.querySelector(".item2");
+			var container2 = document.querySelector("main");
+
+			var active2 = false;
+			var currentX2;
+			var currentY2;
+			var initialX2;
+			var initialY2;
+			var xOffset2 = 0;
+			var yOffset2 = 0;
+
+			container2.addEventListener("touchstart", dragStart, false);
+			container2.addEventListener("touchend", dragEnd, false);
+			container2.addEventListener("touchmove", drag, false);
+
+			container2.addEventListener("mousedown", dragStart, false);
+			container2.addEventListener("mouseup", dragEnd, false);
+			container2.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX2 = e.touches[0].clientX - xOffset2;
+				initialY2 = e.touches[0].clientY - yOffset2;
+			  } else {
+				initialX2 = e.clientX - xOffset2;
+				initialY2 = e.clientY - yOffset2;
+			  }
+
+			  if (e.target === dragItem2) {
+				active2 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX2 = currentX2;
+			  initialY2 = currentY2;
+
+			  active2 = false;
+			}
+
+			function drag(e) {
+			  if (active2) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX2 = e.touches[0].clientX - initialX2;
+				  currentY2 = e.touches[0].clientY - initialY2;
+				} else {
+				  currentX2 = e.clientX - initialX2;
+				  currentY2 = e.clientY - initialY2;
+				}
+
+				xOffset2 = currentX2;
+				yOffset2 = currentY2;
+
+				setTranslate(currentX2, currentY2, dragItem2);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem3 = document.querySelector(".item3");
+			var container3 = document.querySelector("main");
+
+			var active3 = false;
+			var currentX3;
+			var currentY3;
+			var initialX3;
+			var initialY3;
+			var xOffset3 = 0;
+			var yOffset3 = 0;
+
+			container3.addEventListener("touchstart", dragStart, false);
+			container3.addEventListener("touchend", dragEnd, false);
+			container3.addEventListener("touchmove", drag, false);
+
+			container3.addEventListener("mousedown", dragStart, false);
+			container3.addEventListener("mouseup", dragEnd, false);
+			container3.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX3 = e.touches[0].clientX - xOffset3;
+				initialY3 = e.touches[0].clientY - yOffset3;
+			  } else {
+				initialX3 = e.clientX - xOffset3;
+				initialY3 = e.clientY - yOffset3;
+			  }
+
+			  if (e.target === dragItem3) {
+				active3 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX3 = currentX3;
+			  initialY3 = currentY3;
+
+			  active3 = false;
+			}
+
+			function drag(e) {
+			  if (active3) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX3 = e.touches[0].clientX - initialX3;
+				  currentY3 = e.touches[0].clientY - initialY3;
+				} else {
+				  currentX3 = e.clientX - initialX3;
+				  currentY3 = e.clientY - initialY3;
+				}
+
+				xOffset3 = currentX3;
+				yOffset3 = currentY3;
+
+				setTranslate(currentX3, currentY3, dragItem3);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem4 = document.querySelector(".item4");
+			var container4 = document.querySelector("main");
+
+			var active4 = false;
+			var currentX4;
+			var currentY4;
+			var initialX4;
+			var initialY4;
+			var xOffset4 = 0;
+			var yOffset4 = 0;
+
+			container4.addEventListener("touchstart", dragStart, false);
+			container4.addEventListener("touchend", dragEnd, false);
+			container4.addEventListener("touchmove", drag, false);
+
+			container4.addEventListener("mousedown", dragStart, false);
+			container4.addEventListener("mouseup", dragEnd, false);
+			container4.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX4 = e.touches[0].clientX - xOffset4;
+				initialY4 = e.touches[0].clientY - yOffset4;
+			  } else {
+				initialX4 = e.clientX - xOffset4;
+				initialY4 = e.clientY - yOffset4;
+			  }
+
+			  if (e.target === dragItem4) {
+				active4 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX4 = currentX4;
+			  initialY4 = currentY4;
+
+			  active4 = false;
+			}
+
+			function drag(e) {
+			  if (active4) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX4 = e.touches[0].clientX - initialX4;
+				  currentY4 = e.touches[0].clientY - initialY4;
+				} else {
+				  currentX4 = e.clientX - initialX4;
+				  currentY4 = e.clientY - initialY4;
+				}
+
+				xOffset4 = currentX4;
+				yOffset4 = currentY4;
+
+				setTranslate(currentX4, currentY4, dragItem4);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem5 = document.querySelector(".item5");
+			var container5 = document.querySelector("main");
+
+			var active5 = false;
+			var currentX5;
+			var currentY5;
+			var initialX5;
+			var initialY5;
+			var xOffset5 = 0;
+			var yOffset5 = 0;
+
+			container5.addEventListener("touchstart", dragStart, false);
+			container5.addEventListener("touchend", dragEnd, false);
+			container5.addEventListener("touchmove", drag, false);
+
+			container5.addEventListener("mousedown", dragStart, false);
+			container5.addEventListener("mouseup", dragEnd, false);
+			container5.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX5 = e.touches[0].clientX - xOffset5;
+				initialY5 = e.touches[0].clientY - yOffset5;
+			  } else {
+				initialX5 = e.clientX - xOffset5;
+				initialY5 = e.clientY - yOffset5;
+			  }
+
+			  if (e.target === dragItem5) {
+				active5 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX5 = currentX5;
+			  initialY5 = currentY5;
+
+			  active5 = false;
+			}
+
+			function drag(e) {
+			  if (active5) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX5 = e.touches[0].clientX - initialX5;
+				  currentY5 = e.touches[0].clientY - initialY5;
+				} else {
+				  currentX5 = e.clientX - initialX5;
+				  currentY5 = e.clientY - initialY5;
+				}
+
+				xOffset5 = currentX5;
+				yOffset5 = currentY5;
+
+				setTranslate(currentX5, currentY5, dragItem5);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem6 = document.querySelector(".item6");
+			var container6 = document.querySelector("main");
+
+			var active6 = false;
+			var currentX6;
+			var currentY6;
+			var initialX6;
+			var initialY6;
+			var xOffset6 = 0;
+			var yOffset6 = 0;
+
+			container6.addEventListener("touchstart", dragStart, false);
+			container6.addEventListener("touchend", dragEnd, false);
+			container6.addEventListener("touchmove", drag, false);
+
+			container6.addEventListener("mousedown", dragStart, false);
+			container6.addEventListener("mouseup", dragEnd, false);
+			container6.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX6 = e.touches[0].clientX - xOffset6;
+				initialY6 = e.touches[0].clientY - yOffset6;
+			  } else {
+				initialX6 = e.clientX - xOffset6;
+				initialY6 = e.clientY - yOffset6;
+			  }
+
+			  if (e.target === dragItem6) {
+				active6 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX6 = currentX6;
+			  initialY6 = currentY6;
+
+			  active6 = false;
+			}
+
+			function drag(e) {
+			  if (active6) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX6 = e.touches[0].clientX - initialX6;
+				  currentY6 = e.touches[0].clientY - initialY6;
+				} else {
+				  currentX6 = e.clientX - initialX6;
+				  currentY6 = e.clientY - initialY6;
+				}
+
+				xOffset6 = currentX6;
+				yOffset6 = currentY6;
+
+				setTranslate(currentX6, currentY6, dragItem6);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem7 = document.querySelector(".item7");
+			var container7 = document.querySelector("main");
+
+			var active7 = false;
+			var currentX7;
+			var currentY7;
+			var initialX7;
+			var initialY7;
+			var xOffset7 = 0;
+			var yOffset7 = 0;
+
+			container7.addEventListener("touchstart", dragStart, false);
+			container7.addEventListener("touchend", dragEnd, false);
+			container7.addEventListener("touchmove", drag, false);
+
+			container7.addEventListener("mousedown", dragStart, false);
+			container7.addEventListener("mouseup", dragEnd, false);
+			container7.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX7 = e.touches[0].clientX - xOffset7;
+				initialY7 = e.touches[0].clientY - yOffset7;
+			  } else {
+				initialX7 = e.clientX - xOffset7;
+				initialY7 = e.clientY - yOffset7;
+			  }
+
+			  if (e.target === dragItem7) {
+				active7 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX7 = currentX7;
+			  initialY7 = currentY7;
+
+			  active7 = false;
+			}
+
+			function drag(e) {
+			  if (active7) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX7 = e.touches[0].clientX - initialX7;
+				  currentY7 = e.touches[0].clientY - initialY7;
+				} else {
+				  currentX7 = e.clientX - initialX7;
+				  currentY7 = e.clientY - initialY7;
+				}
+
+				xOffset7 = currentX7;
+				yOffset7 = currentY7;
+
+				setTranslate(currentX7, currentY7, dragItem7);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		<script>
+			var dragItem8 = document.querySelector(".item8");
+			var container8 = document.querySelector("main");
+
+			var active8 = false;
+			var currentX8;
+			var currentY8;
+			var initialX8;
+			var initialY8;
+			var xOffset8 = 0;
+			var yOffset8 = 0;
+
+			container8.addEventListener("touchstart", dragStart, false);
+			container8.addEventListener("touchend", dragEnd, false);
+			container8.addEventListener("touchmove", drag, false);
+
+			container8.addEventListener("mousedown", dragStart, false);
+			container8.addEventListener("mouseup", dragEnd, false);
+			container8.addEventListener("mousemove", drag, false);
+
+			function dragStart(e) {
+			  if (e.type === "touchstart") {
+				initialX8 = e.touches[0].clientX - xOffset8;
+				initialY8 = e.touches[0].clientY - yOffset8;
+			  } else {
+				initialX8 = e.clientX - xOffset8;
+				initialY8 = e.clientY - yOffset8;
+			  }
+
+			  if (e.target === dragItem8) {
+				active8 = true;
+			  }
+			}
+
+			function dragEnd(e) {
+			  initialX8 = currentX8;
+			  initialY8 = currentY8;
+
+			  active8 = false;
+			}
+
+			function drag(e) {
+			  if (active8) {
+			  
+				e.preventDefault();
+			  
+				if (e.type === "touchmove") {
+				  currentX8 = e.touches[0].clientX - initialX8;
+				  currentY8 = e.touches[0].clientY - initialY8;
+				} else {
+				  currentX8 = e.clientX - initialX8;
+				  currentY8 = e.clientY - initialY8;
+				}
+
+				xOffset8 = currentX8;
+				yOffset8 = currentY8;
+
+				setTranslate(currentX8, currentY8, dragItem8);
+			  }
+			}
+
+			function setTranslate(xPos, yPos, el) {
+			  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+			}
+		</script>
+		
+		
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+		<script src='https://rawgit.com/RickStrahl/jquery-resizable/master/src/jquery-resizable.js'></script>
+		<script src="https://apps.elfsight.com/p/platform.js" defer></script>
+		
+		<script>
+			$(".item").resizable({
+			  handleSelector: ".win-size-grip"
+			});
+			$(".item2").resizable({
+			  handleSelector: ".win-size-grip2"
+			});
+			$(".item3").resizable({
+			  handleSelector: ".win-size-grip3"
+			});
+			$(".item4").resizable({
+			  handleSelector: ".win-size-grip4"
+			});
+			$(".item5").resizable({
+			  handleSelector: ".win-size-grip5"
+			});
+			$(".item6").resizable({
+			  handleSelector: ".win-size-grip6"
+			});
+			$(".item7").resizable({
+			  handleSelector: ".win-size-grip7"
+			});
+			$(".item8").resizable({
+			  handleSelector: ".win-size-grip8"
+			});
+		</script>
+		
+		<script src="app.js"></script>
+		
+	</body>
+	
+</html>	
+		
+		
+		
+		
+		
+		
+		
